@@ -1,21 +1,39 @@
-import { Label } from '../label';
-import { TextInput } from '../input';
+import { Input } from "../input";
+import { Label } from "../label";
 
 interface TextFieldProps {
-  htmlFor: string;
-  labelText: string;
-  type: string;
-  id: string;
-  name: string;
-  placeholder?: string;
-  require: boolean;
+	htmlFor: string;
+	labelText: string;
+	type: string;
+	name: string;
+	id: string;
+	className?: string;
+	require?: boolean;
+	placeholder?: string;
+	value?: string;
 }
 
-export function TextField({ id ,htmlFor, labelText, name, type, placeholder, require}: TextFieldProps) {
-  return (
-    <>
-      <Label htmlFor={htmlFor} labelText={labelText} />
-      <TextInput type={type} id={id} name={name} placeholder={placeholder} require={require} />
-    </>
-  )
-};
+export function TextField({
+	htmlFor,
+	labelText,
+	type,
+	name,
+	id,
+	className,
+	require,
+	placeholder,
+}: TextFieldProps) {
+	return (
+		<>
+			<Label htmlFor={htmlFor} labelText={labelText} />
+			<Input
+				type={type}
+				className={className}
+				id={id}
+				name={name}
+				placeholder={placeholder}
+				require={require}
+			/>
+		</>
+	);
+}

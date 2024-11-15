@@ -1,25 +1,30 @@
-import { ComponentProps } from "react"
+import type { ComponentProps } from "react";
 
-interface TextInputProps extends ComponentProps<'input'> {
-  type: string;
-  name: string;
-  className?: string;
-  id: string;
-  placeholder?: string;
-  require?: boolean;
-};
+interface InputProps extends ComponentProps<"input"> {
+	type: string;
+	name: string;
+	id: string;
+	className?: string;
+	require?: boolean;
+	placeholder?: string;
+}
 
-
-export function TextInput({ type, name, className, id, placeholder, require  }: TextInputProps) {
-
-  return (
-    <input 
-      type={type} 
-      name={name} 
-      className={className} 
-      id={id}
-      placeholder={placeholder}
-      required={require}
-      />
-  )
-};
+export function Input({
+	type,
+	name,
+	id,
+	className,
+	require,
+	placeholder,
+}: InputProps) {
+	return (
+		<input
+			type={type}
+			name={name}
+			className={className}
+			id={id}
+			placeholder={placeholder}
+			required={require}
+		/>
+	);
+}
