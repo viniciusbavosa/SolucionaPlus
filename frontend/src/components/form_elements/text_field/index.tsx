@@ -1,17 +1,4 @@
-import { Input } from "../input";
-import { Label } from "../label";
-
-interface TextFieldProps {
-	htmlFor: string;
-	labelText: string;
-	type: string;
-	name: string;
-	id: string;
-	className?: string;
-	require?: boolean;
-	placeholder?: string;
-	value?: string;
-}
+import type { TextFieldProps } from "../../../@types";
 
 export function TextField({
 	htmlFor,
@@ -20,20 +7,34 @@ export function TextField({
 	name,
 	id,
 	className,
-	require,
 	placeholder,
+	require,
+	autoComplete,
+	minlength,
+	maxlength,
+	pattern,
+	onChange
 }: TextFieldProps) {
+
 	return (
 		<>
-			<Label htmlFor={htmlFor} labelText={labelText} />
-			<Input
-				type={type}
-				className={className}
-				id={id}
-				name={name}
-				placeholder={placeholder}
-				require={require}
-			/>
+			<label htmlFor={htmlFor} className={className}>
+				{labelText}
+			</label>
+				<input
+					type={type}
+					name={name}
+					className={className}
+					id={id}
+					placeholder={placeholder}
+					required={require}
+					autoComplete={autoComplete}
+					minLength={minlength}
+					maxLength={maxlength}
+					pattern={pattern}
+					onChange={onChange}
+
+				/>
 		</>
 	);
 }
