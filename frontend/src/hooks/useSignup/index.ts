@@ -2,6 +2,7 @@ import { useState } from "react"
 import { IError, ISignupForm } from "~/@types";
 import { IRequestParams } from "~/@types/services/http";
 import { Api } from "~/services";
+import { sanitize } from "~/utils";
 import { registerSchema } from "~/validators";
 
 export function useSignup() {
@@ -23,7 +24,7 @@ export function useSignup() {
     switch (event.target.id) {
       case "name":
         setForm({
-          name: event.target.value,
+          name: sanitize(event.target.value),
           email: form.email,
           password: form.password,
           confirmPassword: form.confirmPassword, 
@@ -32,7 +33,7 @@ export function useSignup() {
       case "email":
         setForm({
           name: form.name,
-          email: event.target.value,
+          email: sanitize(event.target.value),
           password: form.password,
           confirmPassword: form.confirmPassword, 
         });
@@ -41,7 +42,7 @@ export function useSignup() {
         setForm({
           name: form.name,
           email: form.email,
-          password: event.target.value,
+          password: sanitize(event.target.value),
           confirmPassword: form.confirmPassword, 
         });
         break;
@@ -50,7 +51,7 @@ export function useSignup() {
           name: form.name,
           email: form.email,
           password: form.password,
-          confirmPassword: event.target.value, 
+          confirmPassword: sanitize(event.target.value), 
         });
         break;
       default:
@@ -71,7 +72,7 @@ export function useSignup() {
           message: "Erro ao validar dados:  " + isValid.error.format()
         });
 
-        console.log("Senhas não são iguais")
+        console.log("Suas credenciais não estão corretas");
 
         return;
       };
