@@ -1,9 +1,4 @@
-import type { ComponentProps } from "react";
-
-interface ButtonProps extends ComponentProps<"button"> {
-	bttnText: string;
-	loading?: boolean;
-}
+import { ButtonProps } from "~/@types/button";
 
 export function Button({
 	type,
@@ -13,7 +8,11 @@ export function Button({
 	...rest
 }: ButtonProps) {
 	return (
-		<button type={type} disabled={loading} {...rest}>
+		<button 
+			type={type} 
+			disabled={loading} 
+			{...rest}
+		>
 			{loading ? "Carregando..." : bttnText}
 		</button>
 	);
