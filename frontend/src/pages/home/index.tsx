@@ -6,6 +6,8 @@ export function Home() {
 			<h1>Olá mundo!</h1>
 			<p>Tudo bem?</p>
 
+			<a href="/signin">Login</a>
+			<a href="/signup">Cadastro</a>
 			<Outlet />
 		</>
 	);
