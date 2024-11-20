@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { IError } from "~/@types";
 import type { IRequestParams } from "~/@types/services/http";
 import { Api } from "~/services";
+import { sanitize } from "~/utils";
 import { LoginSchema } from "~/validators";
 
 export function useSignin() {
@@ -16,13 +17,13 @@ export function useSignin() {
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 			switch (event.currentTarget.id) {
 				case "name":
-					setName(event.currentTarget.value);
+					setName(sanitize(event.target.value));
 					break;
 				case "email":
-					setEmail(event.currentTarget.value);
+					setEmail(sanitize(event.target.value));
 					break;
 				case "password":
-					setPassword(event.currentTarget.value);
+					setPassword(sanitize(event.target.value));
 					break;
 				default:
 					setError({
