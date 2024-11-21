@@ -17,13 +17,13 @@ export function useSignin() {
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 			switch (event.currentTarget.id) {
 				case "name":
-					setName(sanitize(event.target.value));
+					setName(event.currentTarget.value);
 					break;
 				case "email":
-					setEmail(sanitize(event.target.value));
+					setEmail(event.currentTarget.value);
 					break;
 				case "password":
-					setPassword(sanitize(event.target.value));
+					setPassword(event.currentTarget.value);
 					break;
 				default:
 					setError({
@@ -54,9 +54,15 @@ export function useSignin() {
 				return;
 			}
 
+			const formDataSanitized = {
+				name: sanitize(name),
+				email: sanitize(email),
+				password: sanitize(password)
+			};
+			
 			const params: IRequestParams<"POST"> = {
 				method: "POST",
-				body: JSON.stringify({ name, email, password }),
+				body: JSON.stringify(formDataSanitized),
 			};
 
 			const response = await Api.post("/signin", params);

@@ -24,7 +24,7 @@ export function useSignup() {
     switch (event.target.id) {
       case "name":
         setForm({
-          name: sanitize(event.target.value),
+          name: event.target.value,
           email: form.email,
           password: form.password,
           confirmPassword: form.confirmPassword, 
@@ -33,7 +33,7 @@ export function useSignup() {
       case "email":
         setForm({
           name: form.name,
-          email: sanitize(event.target.value),
+          email: event.target.value,
           password: form.password,
           confirmPassword: form.confirmPassword, 
         });
@@ -42,7 +42,7 @@ export function useSignup() {
         setForm({
           name: form.name,
           email: form.email,
-          password: sanitize(event.target.value),
+          password: event.target.value,
           confirmPassword: form.confirmPassword, 
         });
         break;
@@ -51,7 +51,7 @@ export function useSignup() {
           name: form.name,
           email: form.email,
           password: form.password,
-          confirmPassword: sanitize(event.target.value), 
+          confirmPassword: event.target.value, 
         });
         break;
       default:
@@ -77,9 +77,16 @@ export function useSignup() {
         return;
       };
 
+      const formDataSanitized = {
+				name: sanitize(form.name),
+				email: sanitize(form.email),
+				password: sanitize(form.password),
+        confirmPassword: sanitize(form.confirmPassword)
+			};
+
       const params: IRequestParams<"POST"> = {
         method: "POST",
-        body: JSON.stringify(form)
+        body: JSON.stringify(formDataSanitized)
       }
 
       const response = await Api.post("/signup", params);

@@ -1,6 +1,6 @@
-import { Button } from "~/components/button";
-import { TextField } from "~/components/form_elements";
-import { useSignup } from "~/hooks/useSignup";
+import { Button } from "~/components";
+import { TextField } from "~/components";
+import { useSignup } from "~/hooks/";
 
 export function Signup() {
 
@@ -23,7 +23,7 @@ export function Signup() {
           type="text"
           value={form.name}
           autoComplete="name"
-          required={true}
+          required
           minLength={2}
           placeholder="Nome"
           onChange={handleChange}
@@ -38,7 +38,7 @@ export function Signup() {
           type="email"
           value={form.email}
           autoComplete="email"
-          required={true}
+          required
           maxLength={50}
           placeholder="email"
           onChange={handleChange}
@@ -53,7 +53,7 @@ export function Signup() {
           type="password"
           value={form.password}
           autoComplete="password"
-          required={true}
+          required
           minLength={8}
           placeholder="Senha"
           onChange={handleChange}
@@ -68,7 +68,7 @@ export function Signup() {
           type="password"
           value={form.confirmPassword}
           autoComplete="password"
-          required={true}
+          required
           minLength={8}
           placeholder="Confirme sua senha"
           onChange={handleChange}

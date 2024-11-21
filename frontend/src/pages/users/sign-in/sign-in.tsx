@@ -1,6 +1,6 @@
-import { Button } from "~/components/button";
-import { TextField } from "~/components/form_elements";
-import { useSignin } from "~/hooks/useSignin";
+import { Button } from "~/components";
+import { TextField } from "~/components";
+import { useSignin } from "~/hooks/";
 export function SignIn() {
 	const { 
 		name, 
@@ -23,7 +23,7 @@ export function SignIn() {
 					value={name}
 					placeholder="Nome"
 					autoComplete="name"
-					required={true}
+					required
 					minLength={3}
 					onChange={handleChange}
 				/>
@@ -37,7 +37,7 @@ export function SignIn() {
 					value={email}
 					placeholder="E-mail"
 					autoComplete="email"
-					required={true}
+					required
 					minLength={1}
 					onChange={handleChange}
 				/>
@@ -51,7 +51,7 @@ export function SignIn() {
 					value={password}
 					placeholder="Senha"
 					autoComplete="current-password"
-					required={true}
+					required
 					minLength={8}
 					onChange={handleChange}
 				/>
