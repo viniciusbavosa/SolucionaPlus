@@ -1,121 +1,109 @@
-import { useState } from "react"
-import { IError, ISignupForm } from "~/@types";
-import { IRequestParams } from "~/@types/services/http";
+import { useState } from "react";
+import type { IError, ISignupForm } from "~/@types";
+import type { IRequestParams } from "~/@types/services/http";
 import { Api } from "~/services";
-import { sanitize } from "~/utils";
+import { cleanse } from "~/utils";
 import { registerSchema } from "~/validators";
 
 export function useSignup() {
-  
-  const [form, setForm] = useState<ISignupForm>({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
-  });
+	const [form, setForm] = useState<ISignupForm>({
+		name: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+	});
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<IError>({
-    error: false,
-    message: ""
-  });
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<IError>({
+		error: false,
+		message: "",
+	});
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    switch (event.target.id) {
-      case "name":
-        setForm({
-          name: event.target.value,
-          email: form.email,
-          password: form.password,
-          confirmPassword: form.confirmPassword, 
-        })
-        break;
-      case "email":
-        setForm({
-          name: form.name,
-          email: event.target.value,
-          password: form.password,
-          confirmPassword: form.confirmPassword, 
-        });
-        break;
-      case "password":
-        setForm({
-          name: form.name,
-          email: form.email,
-          password: event.target.value,
-          confirmPassword: form.confirmPassword, 
-        });
-        break;
-      case "confirmPassword":
-        setForm({
-          name: form.name,
-          email: form.email,
-          password: form.password,
-          confirmPassword: event.target.value, 
-        });
-        break;
-      default:
-        console.log("Erro nos estados");
-    };
-  }
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		switch (event.target.id) {
+			case "name":
+				setForm({
+					name: event.target.value,
+					email: form.email,
+					password: form.password,
+					confirmPassword: form.confirmPassword,
+				});
+				break;
+			case "email":
+				setForm({
+					name: form.name,
+					email: event.target.value,
+					password: form.password,
+					confirmPassword: form.confirmPassword,
+				});
+				break;
+			case "password":
+				setForm({
+					name: form.name,
+					email: form.email,
+					password: event.target.value,
+					confirmPassword: form.confirmPassword,
+				});
+				break;
+			case "confirmPassword":
+				setForm({
+					name: form.name,
+					email: form.email,
+					password: form.password,
+					confirmPassword: event.target.value,
+				});
+				break;
+			default:
+				console.log("Erro nos estados");
+		}
+	};
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    try {
-      event.preventDefault();
-      setLoading(true);
+	const handleSubmit = async (event: React.FormEvent) => {
+		try {
+			event.preventDefault();
+			setLoading(true);
 
-      const isValid = registerSchema.safeParse(form);
+			const cleanData = cleanse({
+				schema: registerSchema,
+				data: form as {},
+				behavior: "both"
+			})
 
-      if (!isValid.success) {
-        setError({
-          error: true,
-          message: "Erro ao validar dados:  " + isValid.error.format()
-        });
+			if (!cleanData) throw new Error("Erro ao validar cadastro");
 
-        console.log("Suas credenciais não estão corretas");
-
-        return;
-      };
-
-      const formDataSanitized = {
-				name: sanitize(form.name),
-				email: sanitize(form.email),
-				password: sanitize(form.password),
-        confirmPassword: sanitize(form.confirmPassword)
+			const params: IRequestParams<"POST"> = {
+				method: "POST",
+				body: JSON.stringify(cleanData),
 			};
 
-      const params: IRequestParams<"POST"> = {
-        method: "POST",
-        body: JSON.stringify(formDataSanitized)
-      }
+			const response = await Api.post("/user", params);
+			
+			if (!response) throw new Error("Erro ao enviar dados");
 
-      const response = await Api.post("/signup", params);
-      console.log(await response);
+			console.log(response);
 
-      setForm({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: ""
-      });
-      
+			setForm({
+				name: "",
+				email: "",
+				password: "",
+				confirmPassword: "",
+			});
+		} catch (err) {
+			console.log(err);
+			setError({
+				error: true,
+				message: "Erro ao enviar requisição: " + err,
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
 
-    } catch (err){
-      console.log(err);
-      setError({
-        error: true,
-        message: "Erro ao enviar requisição: " + err
-      });
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  return {
-    form,
-    loading,
-    error,
-    handleChange,
-    handleSubmit
-  }
+	return {
+		form,
+		loading,
+		error,
+		handleChange,
+		handleSubmit,
+	};
 }
