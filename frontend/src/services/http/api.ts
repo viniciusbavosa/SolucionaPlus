@@ -9,9 +9,7 @@ export class Api {
 		const url = Api.baseUrl.concat(endpoint);
 
 		try {
-
 			const response = await fetch(url, options);
-
 
 			const data = await response.json();
 			return data;
@@ -24,9 +22,7 @@ export class Api {
 		const url = Api.baseUrl.concat(endpoint);
 
 		try {
-
 			const response = await fetch(url, options);
-
 
 			const data = await response.json();
 			return data;
@@ -39,9 +35,7 @@ export class Api {
 		const url = Api.baseUrl.concat(endpoint);
 
 		try {
-
 			const response = await fetch(url, options);
-
 
 			const data = await response.json();
 			return data;
@@ -57,9 +51,7 @@ export class Api {
 		const url = Api.baseUrl.concat(endpoint);
 
 		try {
-
 			const response = await fetch(url, options);
-
 
 			const data = await response.json();
 			return data;
@@ -75,9 +67,8 @@ export class Api {
 		const url = Api.baseUrl.concat(endpoint);
 
 		try {
-
 			const response = await fetch(url, options);
-			
+
 			const data = await response.json();
 			return data;
 		} catch (err) {
