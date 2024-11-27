@@ -1,4 +1,4 @@
-import { ButtonProps } from "~/@types/button";
+import type { ButtonProps } from "~/@types";
 
 export function Button({
 	type,

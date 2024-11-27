@@ -1,4 +1,5 @@
 import type { TextFieldProps } from "~/@types";
+import { Label } from "~/components";
 
 export function TextField({
 	htmlFor,
@@ -9,16 +10,8 @@ export function TextField({
 }: TextFieldProps) {
 	return (
 		<>
-			<label 
-				htmlFor={htmlFor} 
-				className={labelClass}
-			>
-				{labelText}
-			</label>
-			<input
-				onChange={onChange}
-				{...rest}
-			/>
+			<Label htmlFor={htmlFor} labelText={labelText} className={labelClass} />
+			<input onChange={onChange} {...rest} />
 		</>
 	);
 }
