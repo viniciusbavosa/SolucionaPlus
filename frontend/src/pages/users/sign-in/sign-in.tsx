@@ -2,18 +2,12 @@ import { Button } from "~/components";
 import { TextField } from "~/components";
 import { useSignin } from "~/hooks/";
 export function SignIn() {
-	const { 
-		name, 
-		email, 
-		password,
-		loading, 
-		error, 
-		handleSubmit, 
-		handleChange } = useSignin();
-		
+	const { name, email, password, loading, error, handleSubmit, handleChange } =
+		useSignin();
+
 	return (
 		<>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} noValidate>
 				<TextField
 					htmlFor="name"
 					labelText="Nome"
@@ -23,8 +17,6 @@ export function SignIn() {
 					value={name}
 					placeholder="Nome"
 					autoComplete="name"
-					required
-					minLength={3}
 					onChange={handleChange}
 				/>
 
@@ -37,8 +29,6 @@ export function SignIn() {
 					value={email}
 					placeholder="E-mail"
 					autoComplete="email"
-					required
-					minLength={1}
 					onChange={handleChange}
 				/>
 
@@ -51,8 +41,6 @@ export function SignIn() {
 					value={password}
 					placeholder="Senha"
 					autoComplete="current-password"
-					required
-					minLength={8}
 					onChange={handleChange}
 				/>
 
