@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { ForgotPassword, Home, SignIn, Signup } from "~/pages";
-import { NewTicket } from "~/pages/tickets";
+import { GetTickets, NewTicket } from "~/pages/tickets";
 import { PrivateRoute } from '~/routes/private/privateRoute';
 
 export const router = createBrowserRouter([
@@ -27,8 +27,18 @@ export const router = createBrowserRouter([
 		element: <PrivateRoute />,
 		children: [
 			{
-				path: 'ticket/new',
-				element: <NewTicket />
+				path: "/",
+				element: <Home />,
+				children: [
+					{
+						path: 'ticket/new',
+						element: <NewTicket />
+					},
+					{
+						path: 'tickets',
+						element: <GetTickets />
+					},
+				]
 			}
 		]
 	}

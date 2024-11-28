@@ -23,6 +23,9 @@ export function Home() {
 				<li>
 					<a href="/ticket/new">Peça ajuda</a>
 				</li>
+				<li>
+					<a href="/tickets">Lista de tickets</a>
+				</li>
 			</ul>
 
 			<Outlet />
