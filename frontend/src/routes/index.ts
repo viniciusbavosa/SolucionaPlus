@@ -1,2 +1,2 @@
-export * from '~/routes/routes';
-export * from '~/routes/private/privateRoute'
+export * from "~/routes/routes";
+export * from "~/routes/private/privateRoute";

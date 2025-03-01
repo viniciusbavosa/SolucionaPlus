@@ -1,2 +1,2 @@
 export * from "./new-ticket/new-ticket";
-export * from './get-tickets/get-tickets';
+export * from "./list-tickets/list-tickets";

@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum TicketStatus {
+  OPEN
+  ONATTENDANCE
+  CLOSED
+  CANCELED
+}
+
+model User {
+  id               String    @id @unique @default(uuid())
+  name             String
+  username         String    @unique
+  email            String    @unique
+  password         String
+  role             Role      @default(USER)
+  status           Status    @default(INACTIVE)
+  registeredAt     DateTime  @default(now())
+  modifiedAt       DateTime? @updatedAt
+  disabledAt       DateTime?
+  WrittenTickets   Ticket[]  @relation("WrittenTickets")
+  CompletedTickets Ticket[]  @relation("CompletedTickets")
+  AttendedTickets  Ticket[]  @relation("ModifiedTickets")
+  ModifiedTickets  Ticket[]  @relation("AttendedTickets")
+  ClosedTickets    Ticket[]  @relation("ClosedTickets")
+  CanceledTickets  Ticket[]  @relation("CanceledTickets")
+
+  @@index([email])
+  @@index([username])
+
+}
+
+model Ticket {
+  id            String       @id @unique @default(uuid())
+  title         String
+  description   String
+  status        TicketStatus @default(OPEN)
+  category      String
+  createdBy     User?         @relation("WrittenTickets", fields: [createdById], references: [id])
+  createdById   String
+  completedBy   User?        @relation("CompletedTickets", fields: [completedById], references: [id])
+  completedById String?
+  modifiedBy    User?        @relation("ModifiedTickets", fields: [modifiedById], references: [id])
+  modifiedById  String?
+  attendingBy   User?        @relation("AttendedTickets", fields: [attendingById], references: [id])
+  attendingById String?
+  closedBy      User?        @relation("ClosedTickets", fields: [closedById], references: [id])
+  closedById    String?
+  canceledBy    User?        @relation("CanceledTickets", fields: [canceledById], references: [id])
+  canceledById  String?
+  createdAt     DateTime     @default(now())
+  modifiedAt    DateTime?    @updatedAt
+  closedAt      DateTime?
+  canceledAt    DateTime?
+}

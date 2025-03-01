@@ -1,8 +1,8 @@
 export interface INewTicketFormState {
-  id?: number;
-  title: string;
-  body: string;
-  status: string;
-  category: string;
-  helper?: number | string;
+	id?: number | undefined;
+	title: string;
+	body: string;
+	status: string;
+	category: string;
+	helper?: number | string;
 }

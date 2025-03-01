@@ -15,7 +15,7 @@ export function TextArea({
 				value={value}
 				required={required}
 				{...rest}
-			></textarea>
+			/>
 		</>
 	);
 }

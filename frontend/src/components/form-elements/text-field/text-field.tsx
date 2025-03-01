@@ -2,16 +2,22 @@ import type { TextFieldProps } from "~/@types";
 import { Label } from "~/components";
 
 export function TextField({
-	htmlFor,
-	labelText,
-	labelClass,
-	onChange,
-	...rest
+  htmlFor,
+  labelText,
+  labelClass,
+  labelAria,
+  onChange,
+  ...rest
 }: TextFieldProps) {
-	return (
-		<>
-			<Label htmlFor={htmlFor} labelText={labelText} className={labelClass} />
-			<input onChange={onChange} {...rest} />
-		</>
-	);
+  return (
+    <>
+      <Label
+        htmlFor={htmlFor ? htmlFor : ""}
+        labelText={labelText ? labelText : ""}
+        aria-label={labelAria}
+        className={labelClass}
+      />
+      <input onChange={onChange} {...rest} />
+    </>
+  );
 }

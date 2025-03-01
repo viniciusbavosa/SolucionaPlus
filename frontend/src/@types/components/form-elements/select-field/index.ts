@@ -1,10 +1,10 @@
 import type { HTMLAttributes } from "react";
-import { IOptionElement } from "~/@types";
+import type { IOptions } from "~/@types";
 
 export interface ISelectProps extends HTMLAttributes<HTMLSelectElement> {
-	labelText: string;
-	labelclass?: string;
-	options: IOptionElement[];
-	name: string;
-	id: string;
+  labelText: string;
+  labelclass?: string;
+  options: IOptions[];
+  name: string;
+  id: string;
 }

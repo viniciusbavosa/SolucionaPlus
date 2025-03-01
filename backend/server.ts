@@ -1,40 +1,57 @@
-import fastify, { type FastifyReply, type FastifyRequest } from 'fastify';
-import fastifyFormbody from '@fastify/formbody';
-import cors from '@fastify/cors';
+import fastify, { type FastifyReply, type FastifyRequest } from "fastify";
+import cors from "@fastify/cors";
+import cookie from "@fastify/cookie";
+import { userRoutes, ticketRoutes } from "./src/routes/index.ts";
+import auth from "./src/middlewares/auth.ts";
+import dotenv from "dotenv";
+dotenv.config();
 
-const app = fastify({
+/* 
+  The ENV object centralize
+  all environment variables in one place
+*/
+export const ENV = {
+  PORT: Number(process.env.PORT),
+  CORS_ORIGIN: process.env.CORS_ORIGIN,
+  SMTP_URL: process.env.SMTP_URL,
+  SMTP_PORT: Number(process.env.SMTP_PORT),
+  SMTP_HOST: process.env.SMTP_HOST,
+};
+
+/* 
+  Fastify instance with logger
+*/
+export const app = fastify({
   logger: {
     transport: {
       target: "pino-pretty",
       options: {
-        colorize: true
-      }
-    }
-  }
+        colorize: true,
+      },
+    },
+  },
 });
 
-app.register(fastifyFormbody);
-
+/* 
+  Plugins
+*/
+app.register(userRoutes, { prefix: "/users" });
+app.register(ticketRoutes);
+app.register(cookie); // Allows Fastify to use cookies
 app.register(cors, {
-  origin: "http://localhost:5173",
-  methods: ['GET', 'POST']
+  origin: ENV.CORS_ORIGIN,
+  methods: ["GET", "POST"],
+  credentials: true,
 });
 
+// app.addHook('preHandler', auth);
 
-app.get('/', (req: FastifyRequest, reply: FastifyReply) => {
-  reply.send({"message": "Requisição recebida"});
+app.get("/", (req: FastifyRequest, reply: FastifyReply) => {
+  reply.send({ message: "Requisição recebida" });
 });
 
-app.post('/signin', (req: FastifyRequest, reply: FastifyReply) => {
-  const body = req.body;
-  console.log(body);
-  reply.status(200).send({"success": true});
-});
+app.listen({ port: ENV.PORT }, (err) => {
+  if (err) return console.log(err);
 
-app.post('/signup', (req: FastifyRequest, reply: FastifyReply) => {
-  const body = req.body;
-  console.log(body);
-  reply.status(200).send(body);
+  console.log(`Servidor ouvindo na porta ${ENV.PORT}`);
 });
-
-app.listen({ port: 8080 }, () => console.log("Servidor ouvindo na porta 8080"));
